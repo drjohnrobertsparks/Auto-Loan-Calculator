@@ -15,23 +15,79 @@ public class CalculatorCLI {
         System.out.println(" ");
         System.out.println("********************************************************");
 
-            //TODO fix ALL SOUT code so it doesn't accept less than zero
-
-            //TODO fix ALL SOUT code so it doesn't accept an invalid input
             System.out.println("Please enter you loan amount: ");
-            double loanAmount = scanner.nextDouble();
-            if (loanAmount < 0){
-                System.out.println("Please enter a positive number!");
+            double loanAmount = 0;
+            boolean validInputLoan = false;
+            while (!validInputLoan) {
+                try {
+                    loanAmount = scanner.nextDouble();
+                    if (loanAmount < 0){
+                        System.out.println("Please enter a positive number!");
+                    } else {
+                        validInputLoan = true;
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a valid number. " + e);
+                    scanner.next();
+                }
+
             }
 
             System.out.println("Please enter your down payment amount: ");
-            double downPayment = scanner.nextDouble();
+            double downPayment = 0;
+            boolean validInputDownPayment = false;
+            while (!validInputDownPayment){
+                try{
+                    downPayment = scanner.nextDouble();
+                    if (downPayment < 0){
+                        System.out.println("Please enter a positive number!");
+                    } else if (downPayment > loanAmount){
+                        System.out.println("Go pay cash for your vehicle! Have fun shopping!");
+                        System.exit(0);
+                    } else {
+                        validInputDownPayment = true;
+                    }
+                } catch (InputMismatchException e){
+                    System.out.println("Invalid input. Please enter a valid number. " + e);
+                    scanner.next();
+                }
+
+            }
 
             System.out.println("Please enter number of payments (How many months): ");
-            int numberOfMonths = scanner.nextInt();
+            int numberOfMonths = 0;
+            boolean validNumberOfPayments = false;
+            while (!validNumberOfPayments){
+                try {
+                    numberOfMonths = scanner.nextInt();
+                    if (numberOfMonths < 0){
+                        System.out.println("Please enter a positive number whole number!");
+                    } else {
+                        validNumberOfPayments = true;
+                    }
+                } catch (InputMismatchException e){
+                    System.out.println("Invalid input. Please enter a valid number. " + e);
+                    scanner.next();
+                }
+            }
 
             System.out.println("Please enter your interest rate: ");
-            double interestRate = scanner.nextDouble();
+            double interestRate = 0;
+            boolean rateOfInterest = false;
+            while (!rateOfInterest){
+                try{
+                    interestRate = scanner.nextDouble();
+                    if (interestRate < 0){
+                        System.out.println("Please enter a positive number!");
+                    } else {
+                        rateOfInterest = true;
+                    }
+                } catch (InputMismatchException e){
+                    System.out.println("Invalid input. Please enter a valid number. " + e);
+                    scanner.next();
+                }
+            }
+
 
             Calculator loanCalculator = new Calculator(loanAmount, downPayment, numberOfMonths, interestRate);
             double monthlyPayment = loanCalculator.calculateMonthlyPayment();
